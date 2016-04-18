@@ -1,25 +1,14 @@
-/GUI$1.class
-/GUI$10.class
-/GUI$11.class
-/GUI$12.class
-/GUI$2.class
-/GUI$3.class
-/GUI$4.class
-/GUI$5.class
-/GUI$6.class
-/GUI$7.class
-/GUI$8.class
-/GUI$9.class
-/GUI$Move.class
-/GUI.class
-/Graph.class
-/Location.class
-/Mapper.class
-/Node.class
-/Parser.class
-/Road.class
-/Segment.class
-/SquaresExample$Square.class
-/SquaresExample.class
-/Trie$TrieNode.class
-/Trie.class
+
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
