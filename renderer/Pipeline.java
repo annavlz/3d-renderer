@@ -1,6 +1,7 @@
 package renderer;
 
 import java.awt.Color;
+import java.util.List;
 
 import renderer.Scene.Polygon;
 
@@ -19,8 +20,9 @@ public class Pipeline {
 	 * should be hidden), and false otherwise.
 	 */
 	public static boolean isHidden(Polygon poly) {
-		// TODO fill this in.
-		return false;
+		Vector3D[] vertices = poly.getVertices();
+		Vector3D normal = vertices[0].crossProduct(vertices[1]);
+		return normal.z > 0 ? true : false;
 	}
 
 	/**
@@ -39,7 +41,15 @@ public class Pipeline {
 	 */
 	public static Color getShading(Polygon poly, Vector3D lightDirection, Color lightColor, Color ambientLight) {
 		// TODO fill this in.
-		return null;
+		Vector3D[] vertices = poly.getVertices();
+		Vector3D normal = vertices[0].crossProduct(vertices[1]);
+		float angle = normal.cosTheta(lightDirection);
+		Color polyColor = poly.getReflectance();
+		int a = Math.round(polyColor.getRed() * angle);
+		int b = Math.round(polyColor.getGreen() * angle);;
+		int c = Math.round(polyColor.getBlue() * angle);;
+		Color shade = new Color (a, b, c);
+		return shade;
 	}
 
 	/**

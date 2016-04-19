@@ -51,7 +51,8 @@ public class Renderer extends GUI {
 	      } catch(Exception e){
 	         e.printStackTrace();
 	      }
-	      scene = new Scene(polygons, lightPos);
+	      render();
+	      
 	}
 
 	@Override
@@ -73,6 +74,14 @@ public class Renderer extends GUI {
 		 * static method stubs in the Pipeline class, which you also need to
 		 * fill in.
 		 */
+		List<Polygon> visiblePolygons = new ArrayList<Polygon>();
+		for(Polygon poly : polygons){
+			if(!Pipeline.isHidden(poly)){
+				poly.setReflectance(Pipeline.getShading(poly, lightPos, null, null)); 
+				visiblePolygons.add(poly);
+			}
+		}
+	    scene = new Scene(visiblePolygons, lightPos);
 		return null;
 	}
 

@@ -84,6 +84,9 @@ public class Scene {
 		public Color getReflectance() {
 			return reflectance;
 		}
+		public void setReflectance(Color color) {
+			this.reflectance = color;
+		}
 
 		@Override
 		public String toString() {
@@ -96,6 +99,7 @@ public class Scene {
 
 			return str;
 		}
+
 	}
 }
 
