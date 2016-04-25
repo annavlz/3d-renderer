@@ -28,6 +28,7 @@ public class ShadingTests {
 		Polygon poly = new Polygon(verts, col);
 
 		Color shading = Pipeline.getShading(poly, light, lightCol, ambient);
+		System.out.println(shading);
 		Color expected = new Color(10, 10, 10);
 
 		assertEquals(expected, shading);
@@ -47,6 +48,7 @@ public class ShadingTests {
 		Polygon poly = new Polygon(verts, col);
 
 		Color shading = Pipeline.getShading(poly, light, lightCol, ambient);
+		System.out.println(shading);
 		Color expected = new Color(39, 100, 100);
 
 		assertEquals(expected, shading);
@@ -67,6 +69,7 @@ public class ShadingTests {
 		Polygon poly = new Polygon(verts, col);
 
 		Color shading = Pipeline.getShading(poly, light, lightCol, ambient);
+		System.out.println(shading);
 		Color expected = new Color(10, 10, 10);
 
 		assertEquals(expected, shading);
@@ -85,6 +88,7 @@ public class ShadingTests {
 		Polygon poly = new Polygon(verts, col);
 
 		Color shading = Pipeline.getShading(poly, light, lightCol, ambient);
+		System.out.println(shading);
 		Color expected = new Color(13, 34, 34);
 
 		assertEquals(expected, shading);

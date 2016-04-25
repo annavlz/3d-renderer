@@ -67,7 +67,7 @@ public class Renderer extends GUI {
 	@Override
 	protected BufferedImage render() {
 		// TODO fill this in.
-
+		Color[][] bitmap = new Color[CANVAS_WIDTH][CANVAS_HEIGHT];
 		/*
 		 * This method should put together the pieces of your renderer, as
 		 * described in the lecture. This will involve calling each of the
@@ -77,12 +77,15 @@ public class Renderer extends GUI {
 		List<Polygon> visiblePolygons = new ArrayList<Polygon>();
 		for(Polygon poly : polygons){
 			if(!Pipeline.isHidden(poly)){
-				poly.setReflectance(Pipeline.getShading(poly, lightPos, null, null)); 
+				poly.setReflectance(Pipeline.getShading(poly, lightPos, new Color(100, 255, 100), new Color(0, 0, 0))); 
 				visiblePolygons.add(poly);
 			}
 		}
 	    scene = new Scene(visiblePolygons, lightPos);
-		return null;
+	    
+	    
+	    
+		return convertBitmapToImage(bitmap);
 	}
 
 	/**

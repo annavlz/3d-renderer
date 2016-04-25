@@ -37,6 +37,13 @@ public class EdgeListTests {
 		EdgeList el = Pipeline.computeEdgeList(poly);
 		
 		// half-way up the triangle
+		System.out.println(el.getRightX(5));
+		System.out.println(el.getLeftX(5));
+		System.out.println("getRightX " + el.getRightX(0));
+		System.out.println(el.getLeftX(0));
+		System.out.println(el.getRightX(10));
+		System.out.println(el.getLeftX(10));
+		
 		assertEquals(0, el.getLeftX(5), 1e-5);
 		assertEquals(5, el.getRightX(5), 1e-5);
 
@@ -47,6 +54,8 @@ public class EdgeListTests {
 		// the top of the triangle
 		assertEquals(0, el.getLeftX(10), 1e-5);
 		assertEquals(0, el.getRightX(10), 1e-5);
+		
+
 		
 		// READ THIS.
 		// You can get away with this test failing. I think it's common that

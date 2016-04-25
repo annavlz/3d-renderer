@@ -1,6 +1,7 @@
 package renderer;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 
 import renderer.Scene.Polygon;
@@ -21,7 +22,9 @@ public class Pipeline {
 	 */
 	public static boolean isHidden(Polygon poly) {
 		Vector3D[] vertices = poly.getVertices();
-		Vector3D normal = vertices[0].crossProduct(vertices[1]);
+		Vector3D a = vertices[1].minus(vertices[0]);
+		Vector3D b = vertices[2].minus(vertices[1]);
+		Vector3D normal = a.crossProduct(b);
 		return normal.z > 0 ? true : false;
 	}
 
@@ -42,13 +45,31 @@ public class Pipeline {
 	public static Color getShading(Polygon poly, Vector3D lightDirection, Color lightColor, Color ambientLight) {
 		// TODO fill this in.
 		Vector3D[] vertices = poly.getVertices();
-		Vector3D normal = vertices[0].crossProduct(vertices[1]);
+		Vector3D a = vertices[1].minus(vertices[0]);
+		Vector3D b =  vertices[2].minus(vertices[1]);
+		Vector3D normal = a.crossProduct(b);
+//		System.out.println(normal);
 		float angle = normal.cosTheta(lightDirection);
+//		System.out.println(angle);
+	
 		Color polyColor = poly.getReflectance();
-		int a = Math.round(polyColor.getRed() * angle);
-		int b = Math.round(polyColor.getGreen() * angle);;
-		int c = Math.round(polyColor.getBlue() * angle);;
-		Color shade = new Color (a, b, c);
+//		System.out.println(ambientLight.getRed());
+//		System.out.println(ambientLight.getGreen());
+//		System.out.println(ambientLight.getBlue());
+//		System.out.println(lightColor.getRed());
+//		System.out.println(lightColor.getGreen());
+//		System.out.println(lightColor.getBlue());
+//		System.out.println(polyColor.getRed()/255.0f);
+//		System.out.println(polyColor.getGreen()/255.0f);
+//		System.out.println(polyColor.getBlue()/255.0f);
+		
+		int r = Math.round(polyColor.getRed()/255.0f * (ambientLight.getRed() + lightColor.getRed() * angle));
+		int g = Math.round(polyColor.getGreen()/255.0f * (ambientLight.getGreen() + lightColor.getGreen() * angle));
+		int bl = Math.round(polyColor.getBlue()/255.0f * (ambientLight.getBlue() + lightColor.getBlue() * angle));
+//		System.out.println(r);
+//		System.out.println(g);
+//		System.out.println(bl);
+		Color shade = new Color (r, g, bl);
 		return shade;
 	}
 
@@ -101,7 +122,14 @@ public class Pipeline {
 	 */
 	public static EdgeList computeEdgeList(Polygon poly) {
 		// TODO fill this in.
-		return null;
+		Vector3D a = poly.getVertices()[0];
+		Vector3D b = poly.getVertices()[1];
+		Vector3D c = poly.getVertices()[2];
+		int yMin = (int) Math.min(c.y, Math.max(a.y, b.y));
+		int yMax = (int) Math.max(c.y, Math.max(a.y, b.y));
+		EdgeList el = new EdgeList(yMin, yMax);
+		el.fill(a,b,c);
+		return el;
 	}
 
 	/**
