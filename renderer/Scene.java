@@ -31,6 +31,50 @@ public class Scene {
           // TODO fill this in.
           return this.polygons;
 	}
+	public float getMaxX() {
+		float maxX = Float.NEGATIVE_INFINITY;
+		for(Polygon poly : polygons){
+			for(Vector3D vector : poly.getVertices()){
+				if(vector.x > maxX){
+					maxX = vector.x;
+				}
+			}
+		}
+		return maxX;
+	}
+	public float getMaxY() {
+		float maxY = Float.NEGATIVE_INFINITY;
+		for(Polygon poly : polygons){
+			for(Vector3D vector : poly.getVertices()){
+				if(vector.y > maxY){
+					maxY = vector.y;
+				}
+			}
+		}
+		return maxY;
+	}
+	public float getMinX() {
+		float minX = Float.POSITIVE_INFINITY;
+		for(Polygon poly : polygons){
+			for(Vector3D vector : poly.getVertices()){
+				if(vector.x < minX){
+					minX = vector.x;
+				}
+			}
+		}
+		return minX;
+	}
+	public float getMinY() {
+		float minY = Float.POSITIVE_INFINITY;
+		for(Polygon poly : polygons){
+			for(Vector3D vector : poly.getVertices()){
+				if(vector.y < minY){
+					minY = vector.y;
+				}
+			}
+		}
+		return minY;
+	}
 
 	/**
 	 * Polygon stores data about a single polygon in a scene, keeping track of

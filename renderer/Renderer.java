@@ -51,6 +51,19 @@ public class Renderer extends GUI {
 	      } catch(Exception e){
 	         e.printStackTrace();
 	      }
+			List<Polygon> visiblePolygons = new ArrayList<Polygon>();
+			for(Polygon poly : polygons){
+				if(!Pipeline.isHidden(poly)){
+					poly.setReflectance(Pipeline.getShading(poly, lightPos, new Color(100, 255, 100), new Color(0, 0, 0))); 
+					visiblePolygons.add(poly);
+				}
+			}
+		    scene = new Scene(visiblePolygons, lightPos);
+		    System.out.println(scene.getMaxX());
+		    System.out.println(scene.getMaxY());
+		    System.out.println(scene.getMinX());
+		    System.out.println(scene.getMinY());
+
 	      render();
 	      
 	}
@@ -67,25 +80,30 @@ public class Renderer extends GUI {
 	@Override
 	protected BufferedImage render() {
 		// TODO fill this in.
+		System.out.println(scene == null);
 		Color[][] bitmap = new Color[CANVAS_WIDTH][CANVAS_HEIGHT];
+		float[][] zDepth = new float[CANVAS_WIDTH][CANVAS_HEIGHT];	
+		for (int x = 0; x < CANVAS_WIDTH; x++) {
+			for (int y = 0; y < CANVAS_HEIGHT; y++) {
+				bitmap[x][y] = new Color(100,100,100);
+			}
+		}
+		if(scene == null){
+			return convertBitmapToImage(bitmap);
+		}
 		/*
 		 * This method should put together the pieces of your renderer, as
 		 * described in the lecture. This will involve calling each of the
 		 * static method stubs in the Pipeline class, which you also need to
 		 * fill in.
 		 */
-		List<Polygon> visiblePolygons = new ArrayList<Polygon>();
-		for(Polygon poly : polygons){
-			if(!Pipeline.isHidden(poly)){
-				poly.setReflectance(Pipeline.getShading(poly, lightPos, new Color(100, 255, 100), new Color(0, 0, 0))); 
-				visiblePolygons.add(poly);
-			}
+		else {
+		    for(Polygon poly : scene.getPolygons()){
+		    	EdgeList el = Pipeline.computeEdgeList(poly);
+				Pipeline.computeZBuffer(bitmap, zDepth, el, poly.getReflectance());
+		    }
+			return convertBitmapToImage(bitmap);
 		}
-	    scene = new Scene(visiblePolygons, lightPos);
-	    
-	    
-	    
-		return convertBitmapToImage(bitmap);
 	}
 
 	/**

@@ -49,7 +49,7 @@ public class Pipeline {
 		Vector3D b =  vertices[2].minus(vertices[1]);
 		Vector3D normal = a.crossProduct(b);
 //		System.out.println(normal);
-		float angle = normal.cosTheta(lightDirection);
+		float angle = Math.abs(normal.cosTheta(lightDirection));
 //		System.out.println(angle);
 	
 		Color polyColor = poly.getReflectance();
@@ -70,6 +70,7 @@ public class Pipeline {
 //		System.out.println(g);
 //		System.out.println(bl);
 		Color shade = new Color (r, g, bl);
+//		System.outprintln(angle + ", " +r + ", " + g + ", "+ bl);
 		return shade;
 	}
 
@@ -100,9 +101,19 @@ public class Pipeline {
 	 * @param scene
 	 * @return
 	 */
-	public static Scene translateScene(Scene scene) {
+	public static Scene translateScene(Scene scene, Vector3D step) {
 		// TODO fill this in.
-		return null;
+		
+		List<Polygon> polys = new ArrayList<Polygon>();
+		for(Polygon poly : scene.getPolygons()){
+			Vector3D a = poly.getVertices()[0].plus(step);
+			Vector3D b = poly.getVertices()[1].plus(step);
+			Vector3D c = poly.getVertices()[2].plus(step);
+			Polygon newPoly = new Polygon(a,b,c, poly.getReflectance());
+			polys.add(newPoly);
+		}
+		Scene newScene = new Scene(polys, scene.getLight());
+		return newScene;
 	}
 
 	/**
@@ -125,7 +136,7 @@ public class Pipeline {
 		Vector3D a = poly.getVertices()[0];
 		Vector3D b = poly.getVertices()[1];
 		Vector3D c = poly.getVertices()[2];
-		int yMin = (int) Math.min(c.y, Math.max(a.y, b.y));
+		int yMin = (int) Math.min(c.y, Math.min(a.y, b.y));
 		int yMax = (int) Math.max(c.y, Math.max(a.y, b.y));
 		EdgeList el = new EdgeList(yMin, yMax);
 		el.fill(a,b,c);
@@ -152,6 +163,32 @@ public class Pipeline {
 	 */
 	public static void computeZBuffer(Color[][] zbuffer, float[][] zdepth, EdgeList polyEdgeList, Color polyColor) {
 		// TODO fill this in.
+//		System.out.println("startInsideZbuffer");
+		for(int i=polyEdgeList.getStartY(); i < polyEdgeList.getEndY(); i++){
+			int xL = (int) polyEdgeList.getLeftX(i); 
+			int xR = (int) polyEdgeList.getRightX(i);
+			float zL = polyEdgeList.getLeftZ(i); 
+			float zR = polyEdgeList.getRightZ(i); 
+			if(xR-xL == 0){
+				if(zdepth[i][xL] > zL){
+					zdepth[i][xL] = zL;
+					zbuffer[i][xL] = polyColor;
+				}
+			}
+			else{
+				float zStep = (zR - zL)/(xR-xL);
+				float zC = zL;
+				for(int x = xL; x < xR; x++ ){
+					float z = zL;
+					zC += zStep;
+					if(zdepth[i][x] > z){
+						zdepth[i][x] = z;
+						zbuffer[i][x] = polyColor;
+					}
+				}
+			}
+
+		}
 	}
 }
 

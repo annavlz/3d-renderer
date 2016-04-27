@@ -14,7 +14,7 @@ import java.util.List;
 public class EdgeList {
 	private int startY;
 	private int endY;
-	private int [][] edgeList;
+	private float [][] edgeList;
 	
 	public EdgeList(int startY, int endY) {
 		this.startY = startY;
@@ -52,13 +52,13 @@ public class EdgeList {
 		return edgeList[y - startY][4];
 	}
 	private void createEdgeList(){
-		edgeList = new int[endY - startY + 1][5];
+		edgeList = new float[endY - startY + 1][5];
 		for(int i = 0; i < endY - startY + 1; i++){
 			edgeList[i][0] = startY + i;
-			edgeList[i][1] = Integer.MAX_VALUE;
-			edgeList[i][2] = Integer.MAX_VALUE;
-			edgeList[i][3] = Integer.MIN_VALUE;
-			edgeList[i][4] = Integer.MIN_VALUE;
+			edgeList[i][1] = Float.POSITIVE_INFINITY;
+			edgeList[i][2] = Float.POSITIVE_INFINITY;
+			edgeList[i][3] = Float.NEGATIVE_INFINITY;
+			edgeList[i][4] = Float.POSITIVE_INFINITY;
 		}
 	}
 	public void fill(Vector3D a, Vector3D b, Vector3D c) {
@@ -68,7 +68,6 @@ public class EdgeList {
 		arrays.add(getEdgeArray(a,c));
 		
 		for(List<Float> arr : arrays){
-			System.out.println(arr);
 			int sy = Math.round(arr.get(0));
 			int fy = Math.round(arr.get(1));
 			float sx = arr.get(2);
@@ -77,12 +76,19 @@ public class EdgeList {
 			float mz = arr.get(5);
 			float stepx = sx;
 			float stepz = sz;
-
-			for(int i = sy - startY; i < (fy - startY + 1); i++){
-				edgeList[i][1] = (int) Math.min(stepx, edgeList[i][1]);
-				edgeList[i][2] = (int) Math.min(stepz, edgeList[i][2]);
-				edgeList[i][3] = (int) Math.max(stepx, edgeList[i][3]);
-				edgeList[i][4] = (int) Math.max(stepz, edgeList[i][4]);
+//			System.out.println(a + " " + b + " " + c+" "+edgeList.length);
+//			System.out.println(startY + " " +sy + " " +fy + " " +sx + " " +sz + " " +mx + " " +mz);
+			for(int i = sy - startY; i < (fy - startY); i++){
+//				System.out.println("i " + i);
+				edgeList[i][1] = Math.min(stepx, edgeList[i][1]);
+				if(stepx <= edgeList[i][1]){
+					edgeList[i][2] = stepz;	
+				}
+				edgeList[i][3] = Math.max(stepx, edgeList[i][3]);
+				if(stepx >= edgeList[i][3]){
+					edgeList[i][4] = stepz;
+				}
+				
 				stepx += mx;
 				stepz += mz;
 			}
@@ -136,6 +142,11 @@ public class EdgeList {
 		}
 		return array;
 		
+	}
+
+	public int getLength() {
+		// TODO Auto-generated method stub
+		return edgeList.length;
 	}	
 		
 }
