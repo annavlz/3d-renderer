@@ -68,8 +68,9 @@ public class EdgeList {
 		arrays.add(getEdgeArray(a,c));
 		
 		for(List<Float> arr : arrays){
-			int sy = Math.round(arr.get(0));
-			int fy = Math.round(arr.get(1));
+			System.out.println(startY +" "+arr.get(0)+" "+arr.get(1)+" "+arr.get(2)+" "+arr.get(3)+" "+arr.get(4)+" "+arr.get(5));
+			int sy = (int)Math.floor(arr.get(0));
+			int fy = (int)Math.floor(arr.get(1));
 			float sx = arr.get(2);
 			float sz = arr.get(3);
 			float mx = arr.get(4);
