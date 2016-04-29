@@ -173,7 +173,7 @@ public class Pipeline {
 	 */
 	public static void computeZBuffer(Color[][] zbuffer, float[][] zdepth, EdgeList polyEdgeList, Color polyColor) {
 		// TODO fill this in.
-//		System.out.println("startInsideZbuffer");
+//		System.out.println("startInsideZbuffer" + polyColor.toString());
 		for(int i=polyEdgeList.getStartY(); i < polyEdgeList.getEndY(); i++){
 			int xL = (int) Math.floor(polyEdgeList.getLeftX(i)); 
 			int xR = (int) Math.floor(polyEdgeList.getRightX(i));
@@ -189,7 +189,7 @@ public class Pipeline {
 				float zStep = (zR - zL)/(xR-xL);
 				float zC = zL;
 				for(int x = xL; x < xR; x++ ){
-					float z = zL;
+					float z = zC;
 					zC += zStep;
 					if(zdepth[i][x] > z){
 						zdepth[i][x] = z;
