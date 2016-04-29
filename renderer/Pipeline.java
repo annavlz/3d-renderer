@@ -146,8 +146,8 @@ public class Pipeline {
 		Vector3D a = poly.getVertices()[0];
 		Vector3D b = poly.getVertices()[1];
 		Vector3D c = poly.getVertices()[2];
-		int yMin = (int) Math.min(c.y, Math.min(a.y, b.y));
-		int yMax = (int) Math.max(c.y, Math.max(a.y, b.y));
+		int yMin = (int) Math.floor(Math.min(c.y, Math.min(a.y, b.y)));
+		int yMax = (int) Math.floor(Math.max(c.y, Math.max(a.y, b.y)));
 		EdgeList el = new EdgeList(yMin, yMax);
 		el.fill(a,b,c);
 		return el;
@@ -175,8 +175,8 @@ public class Pipeline {
 		// TODO fill this in.
 //		System.out.println("startInsideZbuffer");
 		for(int i=polyEdgeList.getStartY(); i < polyEdgeList.getEndY(); i++){
-			int xL = (int) polyEdgeList.getLeftX(i); 
-			int xR = (int) polyEdgeList.getRightX(i);
+			int xL = (int) Math.floor(polyEdgeList.getLeftX(i)); 
+			int xR = (int) Math.floor(polyEdgeList.getRightX(i));
 			float zL = polyEdgeList.getLeftZ(i); 
 			float zR = polyEdgeList.getRightZ(i); 
 			if(xR-xL == 0){
