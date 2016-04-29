@@ -17,6 +17,8 @@ public class Renderer extends GUI {
 	public Vector3D lightPos;
 	@Override
 	protected void onLoad(File file) {
+		scene = null;
+		polygons = new ArrayList<Polygon>();
 		// TODO fill this in.
 
 		/*
@@ -59,10 +61,19 @@ public class Renderer extends GUI {
 				}
 			}
 		    scene = new Scene(visiblePolygons, lightPos);
-		    System.out.println(scene.getMaxX());
-		    System.out.println(scene.getMaxY());
-		    System.out.println(scene.getMinX());
-		    System.out.println(scene.getMinY());
+		    System.out.println(scene.getMaxX() + " " +scene.getMaxY() + " " + scene.getMinX() + " " + scene.getMinY());
+
+		    float diffX = (0 - scene.getMinX() > 0) ? 0 - scene.getMinX() + 10 : 0;
+		    float diffY = (0 - scene.getMinY() > 0) ? 0 - scene.getMinY() + 10 : 0;
+		    Vector3D stepV = new Vector3D(diffX, diffY, 0);
+		    scene = Pipeline.translateScene(scene, stepV);
+		    System.out.println(scene.getMaxX() + " " +scene.getMaxY() + " " + scene.getMinX() + " " + scene.getMinY());
+
+		    float scale = (Math.min(CANVAS_WIDTH, CANVAS_HEIGHT) - 1) / Math.max(scene.getMaxX(), scene.getMaxY());
+
+		    Vector3D scaleV = new Vector3D(scale, scale, scale);
+		    scene = Pipeline.scaleScene(scene,  scaleV);
+		    System.out.println(scene.getMaxX() + " " +scene.getMaxY() + " " + scene.getMinX() + " " + scene.getMinY() + " " + scale);
 
 	      render();
 	      

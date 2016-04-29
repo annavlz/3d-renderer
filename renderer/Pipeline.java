@@ -122,9 +122,19 @@ public class Pipeline {
 	 * @param scene
 	 * @return
 	 */
-	public static Scene scaleScene(Scene scene) {
-		// TODO fill this in.
-		return null;
+	public static Scene scaleScene(Scene scene, Vector3D scale) {
+		Transform t = Transform.newScale(scale);
+		List<Polygon> polys = new ArrayList<Polygon>();
+		for(Polygon poly : scene.getPolygons()){	
+			Vector3D a = t.multiply(poly.getVertices()[0]);		
+			Vector3D b = t.multiply(poly.getVertices()[1]);
+			Vector3D c = t.multiply(poly.getVertices()[2]);
+			
+			Polygon newPoly = new Polygon(a,b,c, poly.getReflectance());
+			polys.add(newPoly);
+		}
+		Scene newScene = new Scene(polys, scene.getLight());
+		return newScene;
 	}
 
 	/**
