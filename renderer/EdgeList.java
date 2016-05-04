@@ -23,32 +23,26 @@ public class EdgeList {
 	}
 
 	public int getStartY() {
-		// TODO fill this in.
 		return this.startY;
 	}
 
 	public int getEndY() {
-		// TODO fill this in.
 		return this.endY;
 	}
 
 	public float getLeftX(int y) {
-		// TODO fill this in.
 		return edgeList[y - startY][1];
 	}
 
 	public float getRightX(int y) {
-		// TODO fill this in.
 		return edgeList[y - startY][3];
 	}
 
 	public float getLeftZ(int y) {
-		// TODO fill this in.
 		return edgeList[y - startY][2];
 	}
 
 	public float getRightZ(int y) {
-		// TODO fill this in.
 		return edgeList[y - startY][4];
 	}
 	private void createEdgeList(){
@@ -68,7 +62,6 @@ public class EdgeList {
 		arrays.add(getEdgeArray(a,c));
 		
 		for(List<Float> arr : arrays){
-			System.out.println(startY +" "+arr.get(0)+" "+arr.get(1)+" "+arr.get(2)+" "+arr.get(3)+" "+arr.get(4)+" "+arr.get(5));
 			int sy = (int)Math.floor(arr.get(0));
 			int fy = (int)Math.floor(arr.get(1));
 			float sx = arr.get(2);
@@ -77,10 +70,7 @@ public class EdgeList {
 			float mz = arr.get(5);
 			float stepx = sx;
 			float stepz = sz;
-//			System.out.println(a + " " + b + " " + c+" "+edgeList.length);
-//			System.out.println(startY + " " +sy + " " +fy + " " +sx + " " +sz + " " +mx + " " +mz);
-			for(int i = sy - startY; i < (fy - startY); i++){
-//				System.out.println("i " + i);
+			for(int i = sy - startY; i < (fy - startY) + 1; i++){
 				edgeList[i][1] = Math.min(stepx, edgeList[i][1]);
 				if(stepx <= edgeList[i][1]){
 					edgeList[i][2] = stepz;	
@@ -88,8 +78,7 @@ public class EdgeList {
 				edgeList[i][3] = Math.max(stepx, edgeList[i][3]);
 				if(stepx >= edgeList[i][3]){
 					edgeList[i][4] = stepz;
-				}
-				
+				}		
 				stepx += mx;
 				stepz += mz;
 			}
@@ -141,8 +130,7 @@ public class EdgeList {
 				array.add(mz);		
 			}
 		}
-		return array;
-		
+		return array;	
 	}
 
 	public int getLength() {

@@ -23,12 +23,10 @@ public class Scene {
 	}
 
 	public Vector3D getLight() {
-          // TODO fill this in.
           return this.light;
 	}
 
 	public List<Polygon> getPolygons() {
-          // TODO fill this in.
           return this.polygons;
 	}
 	public float getMaxX() {

@@ -19,7 +19,6 @@ public class Renderer extends GUI {
 	protected void onLoad(File file) {
 		scene = null;
 		polygons = new ArrayList<Polygon>();
-		// TODO fill this in.
 
 		/*
 		 * This method should parse the given file into a Scene object, which
@@ -61,19 +60,16 @@ public class Renderer extends GUI {
 				}
 			}
 		    scene = new Scene(visiblePolygons, lightPos);
-//		    System.out.println(scene.getMaxX() + " " +scene.getMaxY() + " " + scene.getMinX() + " " + scene.getMinY());
 
 		    float diffX = (0 - scene.getMinX() > 0) ? 0 - scene.getMinX() + 10 : 0;
 		    float diffY = (0 - scene.getMinY() > 0) ? 0 - scene.getMinY() + 10 : 0;
 		    Vector3D stepV = new Vector3D(diffX, diffY, 0);
 		    scene = Pipeline.translateScene(scene, stepV);
-//		    System.out.println(scene.getMaxX() + " " +scene.getMaxY() + " " + scene.getMinX() + " " + scene.getMinY());
 
-		    float scale = (Math.min(CANVAS_WIDTH, CANVAS_HEIGHT) - 1) / Math.max(scene.getMaxX(), scene.getMaxY());
+		    float scale = (Math.min(CANVAS_WIDTH, CANVAS_HEIGHT) - 1) / (Math.max(scene.getMaxX(), scene.getMaxY() + 1));
 
 		    Vector3D scaleV = new Vector3D(scale, scale, scale);
 		    scene = Pipeline.scaleScene(scene,  scaleV);
-//		    System.out.println(scene.getMaxX() + " " +scene.getMaxY() + " " + scene.getMinX() + " " + scene.getMinY() + " " + scale);
 		    
 	      render();
 	      
@@ -90,8 +86,6 @@ public class Renderer extends GUI {
 
 	@Override
 	protected BufferedImage render() {
-		// TODO fill this in.
-//		System.out.println(scene == null);
 		Color[][] bitmap = new Color[CANVAS_WIDTH][CANVAS_HEIGHT];
 		float[][] zDepth = new float[CANVAS_WIDTH][CANVAS_HEIGHT];	
 		for (int x = 0; x < CANVAS_WIDTH; x++) {
@@ -113,12 +107,6 @@ public class Renderer extends GUI {
 		    	EdgeList el = Pipeline.computeEdgeList(poly);
 				Pipeline.computeZBuffer(bitmap, zDepth, el, poly.getReflectance());
 		    }
-//			for (int i = 0; i < CANVAS_WIDTH; i++) {
-//				for (int j = 0; j < CANVAS_WIDTH; j++) {
-//					System.out.print(bitmap[i][j] + " ");
-//				}
-//				System.out.print("\n");
-//			}
 			return convertBitmapToImage(bitmap);
 		}
 	}

@@ -48,29 +48,13 @@ public class Pipeline {
 		Vector3D a = vertices[1].minus(vertices[0]);
 		Vector3D b =  vertices[2].minus(vertices[1]);
 		Vector3D normal = a.crossProduct(b);
-//		System.out.println(normal);
 		float angle = Math.abs(normal.cosTheta(lightDirection));
-//		System.out.println(angle);
-	
 		Color polyColor = poly.getReflectance();
-//		System.out.println(ambientLight.getRed());
-//		System.out.println(ambientLight.getGreen());
-//		System.out.println(ambientLight.getBlue());
-//		System.out.println(lightColor.getRed());
-//		System.out.println(lightColor.getGreen());
-//		System.out.println(lightColor.getBlue());
-//		System.out.println(polyColor.getRed()/255.0f);
-//		System.out.println(polyColor.getGreen()/255.0f);
-//		System.out.println(polyColor.getBlue()/255.0f);
-		
+
 		int r = Math.round(polyColor.getRed()/255.0f * (ambientLight.getRed() + lightColor.getRed() * angle));
 		int g = Math.round(polyColor.getGreen()/255.0f * (ambientLight.getGreen() + lightColor.getGreen() * angle));
 		int bl = Math.round(polyColor.getBlue()/255.0f * (ambientLight.getBlue() + lightColor.getBlue() * angle));
-//		System.out.println(r);
-//		System.out.println(g);
-//		System.out.println(bl);
 		Color shade = new Color (r, g, bl);
-//		System.outprintln(angle + ", " +r + ", " + g + ", "+ bl);
 		return shade;
 	}
 
@@ -102,8 +86,6 @@ public class Pipeline {
 	 * @return
 	 */
 	public static Scene translateScene(Scene scene, Vector3D step) {
-		// TODO fill this in.
-		
 		List<Polygon> polys = new ArrayList<Polygon>();
 		for(Polygon poly : scene.getPolygons()){
 			Vector3D a = poly.getVertices()[0].plus(step);
@@ -142,7 +124,6 @@ public class Pipeline {
 	 * slides.
 	 */
 	public static EdgeList computeEdgeList(Polygon poly) {
-		// TODO fill this in.
 		Vector3D a = poly.getVertices()[0];
 		Vector3D b = poly.getVertices()[1];
 		Vector3D c = poly.getVertices()[2];
@@ -172,8 +153,6 @@ public class Pipeline {
 	 *            The colour of the polygon to add into the zbuffer.
 	 */
 	public static void computeZBuffer(Color[][] zbuffer, float[][] zdepth, EdgeList polyEdgeList, Color polyColor) {
-		// TODO fill this in.
-//		System.out.println("startInsideZbuffer" + polyColor.toString());
 		for(int i=polyEdgeList.getStartY(); i < polyEdgeList.getEndY(); i++){
 			int xL = (int) Math.floor(polyEdgeList.getLeftX(i)); 
 			int xR = (int) Math.floor(polyEdgeList.getRightX(i));
@@ -191,6 +170,7 @@ public class Pipeline {
 				for(int x = xL; x < xR; x++ ){
 					float z = zC;
 					zC += zStep;
+					System.out.println(x);
 					if(zdepth[i][x] > z){
 						zdepth[i][x] = z;
 						zbuffer[i][x] = polyColor;
